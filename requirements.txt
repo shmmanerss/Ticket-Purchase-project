@@ -1,0 +1,7 @@
+Flask
+Flask-Login
+SQLAlchemy>=2.0
+Werkzeug
+Jinja2
+qrcode[pil]
+python-dotenv
