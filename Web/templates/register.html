@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block body %}
+<h4>Регистрация</h4>
+<form method="post" class="w-100">
+    <input class="form-control mb-2" name="name" placeholder="Имя" required>
+    <input class="form-control mb-2" type="email" name="email" placeholder="Email" required>
+    <input class="form-control mb-2" name="phone" placeholder="Телефон" required>
+    <input class="form-control mb-2" type="password" name="password" placeholder="Пароль" required>
+    <button class="btn btn-success w-150">Зарегистрироваться</button>
+</form>
+{% endblock %}

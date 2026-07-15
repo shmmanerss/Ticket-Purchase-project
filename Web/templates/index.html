@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block body %}
+
+<!-- 1) Карусель ближайших событий -->
+<div id="eventsCarousel" class="carousel slide mb-5" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    {% for ev in events %}
+    <div class="carousel-item {% if loop.first %}active{% endif %}">
+      <div class="position-relative overflow-hidden rounded" style="height:450px;">
+        {% if ev.image_url %}
+          <img src="{{ ev.image_url }}"
+               class="w-100 h-100"
+               style="object-fit:cover;"
+               alt="{{ ev.name }}">
+        {% endif %}
+        <div class="position-absolute bottom-0 start-0 p-4 w-100"
+             style="background:linear-gradient(transparent, rgba(0,0,0,0.7));">
+          <h2 class="text-white display-6">{{ ev.name }}</h2>
+          <p class="text-white fs-5">
+            {{ ev.date.strftime('%d %b %Y %H:%M') }} • {{ ev.location }}
+          </p>
+          <a href="/event/{{ ev.id }}"
+             class="btn btn-primary btn-lg">
+            Купить от {{ ev.price or 500 }} ₽
+          </a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <button class="carousel-control-prev" type="button" data-bs-target="#eventsCarousel" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#eventsCarousel" data-bs-slide="next">
+    <span class="carousel-control-next-icon"></span>
+  </button>
+</div>
+
+<!-- 2) Заголовок блока «Ближайшие события» -->
+<h3 class="mb-4">Ближайшие события</h3>
+
+<!-- 3) Старая сетка карточек -->
+<div class="row row-cols-1 row-cols-md-3 g-4">
+  {% for ev in events %}
+  <div class="col">
+    <div class="card h-100 shadow-sm fs-5">
+      {% if ev.image_url %}
+        <img src="{{ ev.image_url }}"
+             class="card-img-top"
+             style="object-fit:cover; height:200px;"
+             alt="{{ ev.name }}">
+      {% endif %}
+      <div class="card-body d-flex flex-column">
+        <h5 class="card-title">{{ ev.name }}</h5>
+        <p class="text-muted mb-1">
+          {{ ev.date.strftime('%d %b %Y %H:%M') }} • {{ ev.location }}
+        </p>
+        <p class="card-text flex-grow-1">{{ ev.description }}</p>
+        <a href="/event/{{ ev.id }}"
+           class="btn btn-primary mt-auto">
+          Подробнее
+        </a>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock %}

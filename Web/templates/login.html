@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block body %}
+<h4>Вход</h4>
+<form method="post" class="w-50">
+    <input class="form-control mb-2" type="email" name="email" placeholder="Email" required>
+    <input class="form-control mb-2" type="password" name="password" placeholder="Пароль" required>
+    <button class="btn btn-success w-100">Войти</button>
+</form>
+{% endblock %}

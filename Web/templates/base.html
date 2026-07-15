@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}Tickets{% endblock %}</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Yandex Sans -->
+  <link href="https://cdn.jsdelivr.net/gh/sergeychipiga/YandexSansWeb@main/css/yandex-sans-display.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/gh/sergeychipiga/YandexSansWeb@main/css/yandex-sans-text.css" rel="stylesheet">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <style>
+    body           { font-family: "Yandex Sans", sans-serif; }
+    h1,h2,h3,h4,h5 { font-family: "Yandex Sans Display", sans-serif; }
+
+    .carousel-control-prev, .carousel-control-next {
+      width:3rem; height:3rem; top:50%; transform:translateY(-50%);
+      background:rgba(0,0,0,0.5); border-radius:50%; opacity:.8;
+    }
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+      filter: brightness(0) invert(1);
+    }
+  </style>
+</head>
+<body class="bg-white">
+
+<nav class="navbar navbar-expand-lg bg-white shadow-sm mb-4">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center fw-thin fs-2" href="/">
+      <img src="https://yastatic.net/s3/home-static/_/3d/8e4f7d7f8b.png"
+           alt="Ticket Afisha" height="40" class="me-2">
+    </a>
+    <div class="ms-auto d-flex align-items-center gap-4 fs-5">
+      <span><i class="bi bi-geo-alt-fill"></i> {{ now.strftime('%d %B') }}</span>
+      {% if current_user.is_authenticated %}
+        <a class="text-decoration-none fw-bold fs-5" href="/cabinet">
+          <i class="bi bi-diamond-fill"></i> Кабинет
+        </a>
+        <a class="text-decoration-none fw-bold fs-5" href="/logout">
+          <i class="bi bi-box-arrow-right"></i> Выход
+        </a>
+      {% else %}
+        <a class="text-decoration-none fw-bold fs-5" href="/login">
+          <i class="bi bi-box-arrow-in-right"></i> Войти
+        </a>
+        <a class="btn btn-primary fs-5" href="/register">
+          Регистрация
+        </a>
+      {% endif %}
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+  {% with m = get_flashed_messages() %}
+    {% if m %}<div class="alert alert-info">{{ m[0] }}</div>{% endif %}
+  {% endwith %}
+
+  {% block body %}{% endblock %}
+</div>
+
+</body>
+</html>

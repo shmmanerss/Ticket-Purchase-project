@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class="card shadow-sm p-4 fs-5 mx-auto" style="max-width:600px;">
+  <h3 class="mb-3">Ваш билет №{{ ticket.id }}</h3>
+  <p><strong>Мероприятие:</strong> {{ ticket.event.name }}</p>
+  <p><strong>Дата и время:</strong> {{ ticket.event.date.strftime('%d %b %Y %H:%M') }}</p>
+  <p><strong>Место:</strong> {{ ticket.event.location }}</p>
+  <p><strong>Статус:</strong> {% if ticket.paid %}<span class="text-success">оплачен</span>{% else %}<span class="text-warning">не оплачен</span>{% endif %}</p>
+
+  {% if ticket.qr_png %}
+    <div class="text-center mt-4">
+      <img src="data:image/png;base64,{{ ticket.qr_png }}" class="border rounded" style="width:250px;" alt="QR-код">
+    </div>
+  {% endif %}
+
+  <div class="mt-4 text-center">
+    <a href="/cabinet" class="btn btn-primary btn-lg">В кабинет</a>
+  </div>
+</div>
+{% endblock %}

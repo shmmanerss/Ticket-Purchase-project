@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block body %}
+
+<!-- Профиль пользователя -->
+<div class="card mb-5 p-4 fs-5">
+  <h2 class="mb-3">Профиль</h2>
+  <p class="mb-2"><strong>Имя:</strong> {{ current_user.name }}</p>
+  <p class="mb-2"><strong>Email:</strong> {{ current_user.email }}</p>
+  <p class="mb-2"><strong>Телефон:</strong> {{ current_user.phone }}</p>
+</div>
+
+<h3 class="mb-4">Мои билеты</h3>
+
+{% for t in tickets %}
+  {% set remaining = RESERVE_MIN - ((now - t.reserved_at).total_seconds() // 60)|int %}
+  <div class="card mb-3 shadow-sm fs-5">
+    <div class="card-body">
+      <h5 class="mb-2">
+        Билет №{{ t.id }}
+        {% if t.paid %}<span class="text-success">— оплачен</span>
+        {% else %}<span class="text-warning">— не оплачен</span>{% endif %}
+      </h5>
+
+      <p class="mb-2">
+        <strong>{{ t.event.name }}</strong><br>
+        {{ t.event.date.strftime('%d %b %Y %H:%M') }} • {{ t.event.location }}
+      </p>
+
+      {% if not t.paid and remaining > 0 %}
+        <p class="mb-2 text-muted">Осталось {{ remaining }} мин для оплаты</p>
+        <a href="/pay/{{ t.id }}" class="btn btn-primary me-2">Оплатить</a>
+      {% endif %}
+
+      {% if t.qr_png %}
+        <button class="btn btn-outline-secondary"
+                data-bs-toggle="collapse" data-bs-target="#qr{{ t.id }}">
+          QR-код
+        </button>
+        <div class="collapse mt-3" id="qr{{ t.id }}">
+          <img src="data:image/png;base64,{{ t.qr_png }}" width="200">
+        </div>
+      {% endif %}
+    </div>
+  </div>
+{% else %}
+  <p class="fs-5">У вас пока нет билетов.</p>
+{% endfor %}
+
+{% endblock %}
